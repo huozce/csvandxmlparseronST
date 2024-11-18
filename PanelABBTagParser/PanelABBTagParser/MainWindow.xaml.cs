@@ -206,14 +206,15 @@ namespace PanelABBTagParser
                 int lineCount = 0;
                 using (StreamWriter writer = new StreamWriter(outputFilePath))
                 {
+                    
                     String formattedLine = "\"#Delimiter:,\"\r\nRecipeName:,Recipe0\r\nsetSize:,0\r\nid:,1\r\nArray Support:,true\r\nElementName,Tag,Array Index,Index Tag,";
                     writer.WriteLine(formattedLine);
                     String addedLines = "";
                     // Loop through each line and format it
                     for (int i = 0; i < lines.Length; i++)
                     {
-                        string currentLine = lines[i];
-                        
+                        string currentLine = lines[i];       
+                        currentLine=currentLineStr(currentLine);
                          
                         
                         // Write the formatted line to the output file
@@ -234,12 +235,12 @@ namespace PanelABBTagParser
                                 writer.WriteLine(addedLines); 
                                 lineCount++; }
 
-                        }
+                        }}
                         
                     }
                    
 
-                }
+                
 
                 MessageBox.Show("Reçetelerinizin .txt formatından istenen .csv formatına dönüştürülmesi başarıyla tamamlandı!");
             }catch(Exception err) { if (outputFilePath != "") { MessageBox.Show(err.Message);
@@ -249,6 +250,44 @@ namespace PanelABBTagParser
                     InputReceipeReferenceFile(null, null);
                     InputReceipeExportFile(null, null); }
             };
+        }
+        string currentLineStr(string input)
+        {
+            bool insideComment = false;
+            int currentLineIndex = 0;
+            int startIndex = 0;
+            int mahmutIndex =0;
+
+            string result = "";
+            while (currentLineIndex < input.Length)
+            {
+                if (!insideComment && currentLineIndex == input.IndexOf("/*",startIndex))
+                {
+                    startIndex = input.IndexOf("/*", startIndex)+1;
+                    insideComment = true;
+                    currentLineIndex = currentLineIndex + 2;
+
+                }
+                else if (insideComment && currentLineIndex == input.IndexOf("*/", mahmutIndex))
+                {mahmutIndex= input.IndexOf("*/", mahmutIndex) + 1;
+                    insideComment = false;
+                    currentLineIndex = currentLineIndex + 2;
+                }
+
+                else if (!insideComment && currentLineIndex != input.IndexOf("*/", mahmutIndex))
+                {
+                    mahmutIndex = input.IndexOf("*/", mahmutIndex) + 1;
+                    result = result + input[currentLineIndex];
+                    currentLineIndex++;
+                }
+                else
+                {
+                    currentLineIndex++;
+
+                }
+
+            }
+            return result;
         }
 
         private void alarmSifirla(object sender, RoutedEventArgs e)
