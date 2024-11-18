@@ -1,0 +1,25 @@
+﻿<Window x:Class="PanelABBTagParser.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PanelABBTagParser"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="408" Width="527">
+    <Grid  >
+        <Button Content="Txt Formatındaki Alarm&#xD;&#xA;Değişken dosyasını Seç" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Click="InputAlarmReferenceFile" HorizontalAlignment="Left" Height="66" Margin="60,91,0,0" VerticalAlignment="Top" Width="160">
+
+        </Button>
+        <Button Content="XML Formatına Dönüştür.&#xA;(Boş XML Seçiniz) "  Click="InputAlarmExportFile" HorizontalAlignment="Left" Height="67" Margin="58,189,0,0" VerticalAlignment="Top" Width="160"/>
+        <Button   Content="Alarm Dosyası Oluştur" FontWeight="Bold"  Click="ExportAlarmFile" HorizontalAlignment="Left" Height="70" Margin="60,284,0,0" VerticalAlignment="Top" Width="160" />
+        <Button Content="Txt Formatındaki Reçete&#xA;Değişken Dosyasını Seç" Click="InputReceipeReferenceFile" HorizontalAlignment="Left" Height="67" Margin="301,90,0,0" VerticalAlignment="Top" Width="160"/>
+        <Button Content="Csv Formatına Çevrilecek&#xD;&#xA; Reçete(Boş csv Dosyası Seçiniz)" Click="InputReceipeExportFile" HorizontalAlignment="Left" Height="67" Margin="301,189,0,0" VerticalAlignment="Top" Width="160"/>
+        <Button Content="Reçete Dosyası Oluştur" FontWeight="Bold" Click="ExportReceipeFile" HorizontalAlignment="Left" Height="70" Margin="301,284,0,0" VerticalAlignment="Top" Width="160" />
+        <Label Content="Panele Alarm Veritabanını Yükle" HorizontalAlignment="Left" Margin="56,16,0,0" VerticalAlignment="Top" />
+        <Label Content="Panele Reçete Veritabanını Yükle" HorizontalAlignment="Left" Margin="288,16,0,0" VerticalAlignment="Top" />
+        <Button Content="Sıfırla" Click="alarmSifirla" HorizontalAlignment="Left" Height="21" Margin="85,55,0,0" VerticalAlignment="Top" Width="106" Background="Red"/>
+        <Button Content="Sıfırla" Click="receteSifirla" HorizontalAlignment="Left" Height="21" Margin="330,55,0,0" VerticalAlignment="Top" Width="106" Background="Red"/>
+
+    </Grid>
+
+</Window>

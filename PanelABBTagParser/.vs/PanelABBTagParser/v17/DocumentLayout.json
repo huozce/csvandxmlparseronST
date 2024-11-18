@@ -1,0 +1,119 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\HET-162200EU\\Desktop\\PanelABBTagParser\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{7D17A40A-1E1E-451B-B337-4815EDE64258}|PanelABBTagParser\\PanelABBTagParser.csproj|C:\\Users\\HET-162200EU\\Desktop\\PanelABBTagParser\\panelabbtagparser\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7D17A40A-1E1E-451B-B337-4815EDE64258}|PanelABBTagParser\\PanelABBTagParser.csproj|solutionrelative:panelabbtagparser\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D17A40A-1E1E-451B-B337-4815EDE64258}|PanelABBTagParser\\PanelABBTagParser.csproj|c:\\users\\het-162200eu\\desktop\\panelabbtagparser\\panelabbtagparser\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{7D17A40A-1E1E-451B-B337-4815EDE64258}|PanelABBTagParser\\PanelABBTagParser.csproj|solutionrelative:panelabbtagparser\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D17A40A-1E1E-451B-B337-4815EDE64258}|PanelABBTagParser\\PanelABBTagParser.csproj|C:\\Users\\HET-162200EU\\Desktop\\PanelABBTagParser\\panelabbtagparser\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{7D17A40A-1E1E-451B-B337-4815EDE64258}|PanelABBTagParser\\PanelABBTagParser.csproj|solutionrelative:panelabbtagparser\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D17A40A-1E1E-451B-B337-4815EDE64258}|PanelABBTagParser\\PanelABBTagParser.csproj|C:\\Users\\HET-162200EU\\Desktop\\PanelABBTagParser\\panelabbtagparser\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7D17A40A-1E1E-451B-B337-4815EDE64258}|PanelABBTagParser\\PanelABBTagParser.csproj|solutionrelative:panelabbtagparser\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|PanelABBTagParser||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PanelABBTagParser",
+              "DocumentMoniker": "C:\\Users\\HET-162200EU\\Desktop\\PanelABBTagParser\\PanelABBTagParser\\PanelABBTagParser.csproj",
+              "RelativeDocumentMoniker": "PanelABBTagParser\\PanelABBTagParser.csproj",
+              "ToolTip": "C:\\Users\\HET-162200EU\\Desktop\\PanelABBTagParser\\PanelABBTagParser\\PanelABBTagParser.csproj",
+              "RelativeToolTip": "PanelABBTagParser\\PanelABBTagParser.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-11-13T09:27:19.663Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\HET-162200EU\\Desktop\\PanelABBTagParser\\PanelABBTagParser\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "PanelABBTagParser\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\HET-162200EU\\Desktop\\PanelABBTagParser\\PanelABBTagParser\\MainWindow.xaml.cs",
+              "RelativeToolTip": "PanelABBTagParser\\MainWindow.xaml.cs",
+              "ViewState": "AQIAAMYAAAAAAAAAAAAgwNYAAABIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-13T08:41:39.413Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\HET-162200EU\\Desktop\\PanelABBTagParser\\PanelABBTagParser\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "PanelABBTagParser\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\HET-162200EU\\Desktop\\PanelABBTagParser\\PanelABBTagParser\\MainWindow.xaml",
+              "RelativeToolTip": "PanelABBTagParser\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-11-13T08:27:21.611Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "App.xaml",
+              "DocumentMoniker": "C:\\Users\\HET-162200EU\\Desktop\\PanelABBTagParser\\PanelABBTagParser\\App.xaml",
+              "RelativeDocumentMoniker": "PanelABBTagParser\\App.xaml",
+              "ToolTip": "C:\\Users\\HET-162200EU\\Desktop\\PanelABBTagParser\\PanelABBTagParser\\App.xaml",
+              "RelativeToolTip": "PanelABBTagParser\\App.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-11-13T08:27:21.668Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "App.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\HET-162200EU\\Desktop\\PanelABBTagParser\\PanelABBTagParser\\App.xaml.cs",
+              "RelativeDocumentMoniker": "PanelABBTagParser\\App.xaml.cs",
+              "ToolTip": "C:\\Users\\HET-162200EU\\Desktop\\PanelABBTagParser\\PanelABBTagParser\\App.xaml.cs",
+              "RelativeToolTip": "PanelABBTagParser\\App.xaml.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-13T08:27:21.672Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
