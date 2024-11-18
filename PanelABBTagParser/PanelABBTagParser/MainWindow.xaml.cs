@@ -268,15 +268,15 @@ namespace PanelABBTagParser
                     currentLineIndex = currentLineIndex + 2;
 
                 }
-                else if (insideComment && currentLineIndex == input.IndexOf("*/", mahmutIndex))
-                {mahmutIndex= input.IndexOf("*/", mahmutIndex) + 1;
+                else if (insideComment && currentLineIndex == input.IndexOf("*/", startIndex))
+                {startIndex= input.IndexOf("*/", startIndex)+1;
                     insideComment = false;
                     currentLineIndex = currentLineIndex + 2;
                 }
 
-                else if (!insideComment && currentLineIndex != input.IndexOf("*/", mahmutIndex))
+                else if (!insideComment && currentLineIndex != input.IndexOf("*/"))
                 {
-                    mahmutIndex = input.IndexOf("*/", mahmutIndex) + 1;
+                    
                     result = result + input[currentLineIndex];
                     currentLineIndex++;
                 }
