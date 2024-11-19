@@ -206,49 +206,99 @@ namespace PanelABBTagParser
                 int lineCount = 0;
                 using (StreamWriter writer = new StreamWriter(outputFilePath))
                 {
-                    
+
                     String formattedLine = "\"#Delimiter:,\"\r\nRecipeName:,Recipe0\r\nsetSize:,0\r\nid:,1\r\nArray Support:,true\r\nElementName,Tag,Array Index,Index Tag,";
                     writer.WriteLine(formattedLine);
                     String addedLines = "";
+                    String[] PiecesOfLine = { };
+                    String PieceOfLine = "";
+                    bool useInstead = false;
+                    int k = 0;
+                    void writeToline()
+                    {
+                        writer.WriteLine(addedLines);
+                        lineCount++;
+                    }
+                    void addingToLine(String substr)
+                    { addedLines = $"\"Element{lineCount}\",\"{substr.Replace(" ", "")}\",\"-1\",\"\"" + ","; }
                     // Loop through each line and format it
                     for (int i = 0; i < lines.Length; i++)
                     {
-                        string currentLine = lines[i];       
-                        currentLine=currentLineStr(currentLine);
-                         
-                        
+                        string currentLine = lines[i];
+                        currentLine = currentLineStr(currentLine);
+                        PieceOfLine = currentLine;
+                        if (currentLine.Contains(";"))
+                        {
+                            useInstead = true;
+                            PiecesOfLine = PieceOfLine.Split(';');
+                            for (k = 0; k < PiecesOfLine.Length; k++)
+                            {
+                                if (PiecesOfLine[k].Contains(":"))
+                                {
+                                    PiecesOfLine[k] = PiecesOfLine[k].Substring(0, PiecesOfLine[k].IndexOf(":"));
+                                    addingToLine(PiecesOfLine[k]);
+                                    writeToline();
+                                    
+                                }
+                                else
+                                {
+                                    addingToLine(PiecesOfLine[k]);
+                                    writeToline();
+                                    
+                                }
+
+                            }
+                          
+                            //PieceOfLine=currentLine.Substring(0,currentLine.IndexOf(";",k));
+                            //       k = k+currentLine.IndexOf(";", k)
+
+                        } if (currentLine.Contains(";") == false)
+                            {
+                        useInstead = false; 
+                            }
+
                         // Write the formatted line to the output file
-                        if ((currentLine != "") && currentLine.Contains("//")!=true)
+                        if ((currentLine != "") && currentLine.Contains("//") == false && (useInstead == false))
                         {
                             if (currentLine.IndexOf(":") >= 0)
                             {
-                                
+
                                 currentLine = currentLine.Substring(0, currentLine.IndexOf(":"));
-                                
+
                                 addedLines = $"\"Element{lineCount}\",\"{currentLine.Replace(" ", "")}\",\"-1\",\"\"" + ",";
-                                writer.WriteLine(addedLines);
-                                
-                                lineCount++;
+                                writeToline();
                             }
-                            else {
-                                addedLines = $"\"Element{lineCount}\",\"{currentLine.Replace(" ", "")}\",\"-1\",\"\"" + ","; 
-                                writer.WriteLine(addedLines); 
-                                lineCount++; }
 
-                        }}
-                        
+
+                            else
+                            {
+                                addedLines = $"\"Element{lineCount}\",\"{currentLine.Replace(" ", "")}\",\"-1\",\"\"" + ",";
+                                writeToline();
+
+                            }
+                        }
+
                     }
-                   
 
-                
 
-                MessageBox.Show("Reçetelerinizin .txt formatından istenen .csv formatına dönüştürülmesi başarıyla tamamlandı!");
-            }catch(Exception err) { if (outputFilePath != "") { MessageBox.Show(err.Message);
+
+
+                    MessageBox.Show("Reçetelerinizin .txt formatından istenen .csv formatına dönüştürülmesi başarıyla tamamlandı!");
+                }
+            }
+            catch (Exception err)
+            {
+                if (outputFilePath != "")
+                {
+                    MessageBox.Show(err.Message);
                     InputReceipeReferenceFile(null, null);
                 }
-            else { MessageBox.Show("Lütfen hangi dosyadan alınacağını ve hangi dosyaya aktarılacağını seçiniz.");
+                else
+                {
+                    MessageBox.Show("Lütfen hangi dosyadan alınacağını ve hangi dosyaya aktarılacağını seçiniz.");
                     InputReceipeReferenceFile(null, null);
-                    InputReceipeExportFile(null, null); }
+                    InputReceipeExportFile(null, null);
+                }
             };
         }
         string currentLineStr(string input)
