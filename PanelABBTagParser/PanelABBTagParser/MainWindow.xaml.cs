@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -198,6 +199,7 @@ namespace PanelABBTagParser
             }
 
         }
+        string gecici = "";
         private void ExportReceipeFile(object sender, RoutedEventArgs e)
         {
             try
@@ -206,7 +208,7 @@ namespace PanelABBTagParser
                 int lineCount = 0;
                 using (StreamWriter writer = new StreamWriter(outputFilePath))
                 {
-
+                    
                     String formattedLine = "\"#Delimiter:,\"\r\nRecipeName:,Recipe0\r\nsetSize:,0\r\nid:,1\r\nArray Support:,true\r\nElementName,Tag,Array Index,Index Tag,";
                     writer.WriteLine(formattedLine);
                     String addedLines = "";
@@ -219,8 +221,11 @@ namespace PanelABBTagParser
                         writer.WriteLine(addedLines);
                         lineCount++;
                     }
+
                     void addingToLine(String substr)
-                    { addedLines = $"\"Element{lineCount}\",\"{substr.Replace(" ", "")}\",\"-1\",\"\"" + ","; }
+                    { addedLines = $"\"Element{lineCount}\",\"{substr.Replace(" ", "")}\",\"-1\",\"\"" + ","; 
+                    
+                    }
                     // Loop through each line and format it
                     for (int i = 0; i < lines.Length; i++)
                     {
@@ -233,26 +238,32 @@ namespace PanelABBTagParser
                             PiecesOfLine = PieceOfLine.Split(';');
                             for (k = 0; k < PiecesOfLine.Length; k++)
                             {
-                                if (PiecesOfLine[k].Contains(":"))
+                                if ((PiecesOfLine[k] != " ") && (PiecesOfLine[k].Contains("//") == false))
                                 {
-                                    PiecesOfLine[k] = PiecesOfLine[k].Substring(0, PiecesOfLine[k].IndexOf(":"));
-                                    addingToLine(PiecesOfLine[k]);
-                                    writeToline();
-                                    
-                                }
-                                else
-                                {
-                                    addingToLine(PiecesOfLine[k]);
-                                    writeToline();
-                                    
-                                }
+                                    if (PiecesOfLine[k].Contains(":"))
+                                    {
+                                        PiecesOfLine[k] = PiecesOfLine[k].Substring(0, PiecesOfLine[k].IndexOf(":"));
+                                        addingToLine(PiecesOfLine[k]);
+                                        writeToline();
+                                    }
 
+
+                                    else
+                                    {
+                                        addingToLine(PiecesOfLine[k]);
+                                        writeToline();
+
+                                    }
+
+                                }
                             }
+                        }
+                        
                           
                             //PieceOfLine=currentLine.Substring(0,currentLine.IndexOf(";",k));
                             //       k = k+currentLine.IndexOf(";", k)
 
-                        } if (currentLine.Contains(";") == false)
+                         if (currentLine.Contains(";") == false)
                             {
                         useInstead = false; 
                             }
@@ -301,22 +312,23 @@ namespace PanelABBTagParser
                 }
             };
         }
+        
         string currentLineStr(string input)
         {
             bool insideComment = false;
             int currentLineIndex = 0;
             int startIndex = 0;
-            int mahmutIndex =0;
-
+            
             string result = "";
             while (currentLineIndex < input.Length)
             {
                 if (!insideComment && currentLineIndex == input.IndexOf("/*",startIndex))
                 {
+                    
                     startIndex = input.IndexOf("/*", startIndex)+1;
                     insideComment = true;
                     currentLineIndex = currentLineIndex + 2;
-
+                    result = result+";";
                 }
                 else if (insideComment && currentLineIndex == input.IndexOf("*/", startIndex))
                 {startIndex= input.IndexOf("*/", startIndex)+1;
