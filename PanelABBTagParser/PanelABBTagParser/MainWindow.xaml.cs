@@ -18,9 +18,11 @@ using System.Windows.Shapes;
 
 namespace PanelABBTagParser
 {
- 
+
     public partial class MainWindow : Window
     {
+
+        #region Variable definitions
         string inputFilePath = ""; //.txt dosya uzantılı recete database
         string outputFilePath = ""; //.csv dosya uzantılı nereye yükleneceği
         String filePath = ""; //.txt dosya uzantılı alarm database
@@ -57,16 +59,133 @@ namespace PanelABBTagParser
      "  <actions/>\r\n        <useractions/>\r\n        <description>\r\n          " +
      "  <L1 langName=\"Lang1\">AL01_GranulSurucuAriza</L1>\r\n        </description>\r\n      " +
      "  <enableAudit auditBuff=\"\" subT=\"1\" eventT=\"18\">false</enableAudit>\r\n    </alarm>";
+        string addedLines = "";
+        int lineCount = 0;
+        #endregion
 
+        #region Common functions
+        void writeToline(StreamWriter Writer)
+        {
+            if (addedLines != "") { 
+            Writer.WriteLine(addedLines);
+            lineCount++;
+        }
+        }
+
+        enum Operation
+        {
+            Alarm,
+            Recipe
+        }
+
+        void addingToLine(String substr, Operation OP)
+        {
+            string input = inputRecete.Text;
+            switch (OP)
+            {
+                case Operation.Alarm:
+                    if (substr != "" && OP == Operation.Alarm)
+                        addedLines = alarmString.Replace("AL01_GranulSurucuAriza", input + substr).Replace("<name>Alarm1</name>", "<name>Alarm" + lineCount + "</name>");
+                    break;
+                case Operation.Recipe:
+                    if (substr != "")
+                        addedLines = $"\"Element{lineCount}\",\"{input + substr.Replace(" ", "")}\",\"-1\",\"\"" + ",";
+                    break;
+                default:
+                    return;
+            }
+
+
+
+        }
+
+        string currentLineStr(string input)
+        {
+            bool insideComment = false;
+            int currentLineIndex = 0;
+            int startIndex = 0;
+
+            string result = "";
+            while (currentLineIndex < input.Length)
+            {
+                if (!insideComment && currentLineIndex == input.IndexOf("/*", startIndex))
+                {
+
+                    startIndex = input.IndexOf("/*", startIndex) + 1;
+                    insideComment = true;
+                    currentLineIndex = currentLineIndex + 2;
+                    result = result + ";";
+                }
+                else if (insideComment && currentLineIndex == input.IndexOf("*/", startIndex))
+                {
+                    startIndex = input.IndexOf("*/", startIndex) + 1;
+                    insideComment = false;
+                    currentLineIndex = currentLineIndex + 2;
+                }
+
+                else if (!insideComment && currentLineIndex != input.IndexOf("*/"))
+                {
+
+                    result = result + input[currentLineIndex];
+                    currentLineIndex++;
+                }
+                else
+                {
+                    currentLineIndex++;
+
+                }
+
+            }
+            return result;
+        }
+
+        string currentLineSt(string input)
+        {
+            bool insideComment = false;
+            int currentLineIndex = 0;
+            int startIndex = 0;
+
+            string result = "";
+            while (currentLineIndex < input.Length)
+            {
+                if (!insideComment && currentLineIndex == input.IndexOf("/*", startIndex))
+                {
+
+                    startIndex = input.IndexOf("/*", startIndex) + 1;
+                    insideComment = true;
+                    currentLineIndex = currentLineIndex + 2;
+                    result = result + ";";
+                }
+                else if (insideComment && currentLineIndex == input.IndexOf("*/", startIndex))
+                {
+                    startIndex = input.IndexOf("*/", startIndex) + 1;
+                    insideComment = false;
+                    currentLineIndex = currentLineIndex + 2;
+                }
+
+                else if (!insideComment && currentLineIndex != input.IndexOf("*/"))
+                {
+
+                    result = result + input[currentLineIndex];
+                    currentLineIndex++;
+                }
+                else
+                {
+                    currentLineIndex++;
+
+                }
+
+            }
+            return result;
+        }
+        #endregion
 
         public MainWindow()
         {
             InitializeComponent();
         }
 
-
-
-
+        #region Alarm
         private void InputAlarmReferenceFile(object sender, RoutedEventArgs e)
         {
             DialogFile.Title = "Hangi dosyadan aktarılacağını seçiniz(.txt)";
@@ -101,70 +220,112 @@ namespace PanelABBTagParser
                 }
             }
         }
+        
         private void ExportAlarmFile(object sender, RoutedEventArgs e)
         {
 
             try
             {
-                using (StreamReader reader = new StreamReader(filePath))
+                using (StreamWriter WritingAlarm = new StreamWriter(exportedPath))
                 {
+                    bool indicator = false;
+                    string[] lines = File.ReadAllLines(filePath);
+
                     if (!(filePath == "" && exportedPath == ""))
-                    {
-                        File.AppendAllText(exportedPath, "<?xml version = \"1.0\" encoding = \"UTF-8\" ?> <alarms>");
-                        int i = 0;
-                        while (!reader.EndOfStream)
-                        {
-                            string line = reader.ReadLine();
-                            string[] values = line.Split(';'); // Split by semicolon
-                            string valuenow = "";
-                            foreach (var value in values)
+                    { int lineCount = 0;
+
+                        WritingAlarm.WriteLine("<?xml version = \"1.0\" encoding = \"UTF-8\" ?> <alarms>");
+
+                        for (int i = 0; i < lines.Length; i++)
+                        { string currentLine = lines[i];
+                            bool useInstead = false;
+                            currentLine = currentLineSt(currentLine);
+                            string PieceOfLine = currentLine;
+                            string[] PiecesOfLine = { };
+                            PiecesOfLine = PieceOfLine.Split(';');
+                            
+                          
+                            if (currentLine.Contains(";"))// bulunulan satırda ; isareti var ise ; e göre ayrılır. ve hepsi farklı satır olarak eklenir.
                             {
-                                if ((value != "") && (value.Contains("/")==false))
+                                useInstead = true;
+                                PiecesOfLine = PieceOfLine.Split(';');
+                                for (int j = 0; j < PiecesOfLine.Length; j++)
                                 {
-                                    value.Replace(" ", "");
-                                    if (value.IndexOf(":") >= 0)
+                                    if ((PiecesOfLine[j].Contains(" ")) && (PiecesOfLine[j] != "")&&(PiecesOfLine[j].Contains("//") == false))
                                     {
-                                        valuenow = value.Substring(0, value.IndexOf(":"));
-                                        File.AppendAllText(exportedPath, alarmString.Replace("AL01_GranulSurucuAriza", valuenow).Replace("<name>Alarm1</name>", "<name>Alarm" + i + "</name>"));
-                                        i++;
+                                        if (PiecesOfLine[j].Contains(":"))
+                                        {
+                                            PiecesOfLine[j] = PiecesOfLine[j].Substring(0, PiecesOfLine[j].IndexOf(":"));
+                                            addingToLine(PiecesOfLine[j].Replace(" ",""),Operation.Alarm);
+                                            writeToline(WritingAlarm);
+                                        }
+
+
+                                        else
+                                        {
+                                            addingToLine(PiecesOfLine[j].Replace(" ", ""), Operation.Alarm);
+                                            writeToline(WritingAlarm);
+
+                                        }
                                     }
-                                    else { File.AppendAllText(exportedPath, alarmString.Replace("AL01_GranulSurucuAriza", value).Replace("<name>Alarm1</name>", "<name>Alarm" + i + "</name>")); i++; }
-                                    
                                 }
-                                
-                                
                             }
+                            if (currentLine.Contains(";") == false)
+                            {
+                                useInstead = false;
+                            }
+                            if ((currentLine != "") && (currentLine.Contains("//") == false) && (useInstead == false))
+                            {
+                                currentLine.Replace(" ", "");
+                                if (currentLine.IndexOf(":") >= 0)
+                                {
+                                    currentLine = currentLine.Substring(0, currentLine.IndexOf(":"));
+                                    addingToLine(currentLine.Replace(" ", ""), Operation.Alarm);
+                                    writeToline(WritingAlarm);
+                                }
+                                else { addingToLine(currentLine.Replace(" ", ""), Operation.Alarm);
+                                    writeToline(WritingAlarm);
+                                }
+
+                            }
+
+
                         }
-                        File.AppendAllText(exportedPath, "</alarms>");
-                        MessageBox.Show("Alarmlarınızın .txt formatından istenen .XML formatına dönüştürülmesi başarıyla tamamlandı!");
-                    }
-                     };
+                    }WritingAlarm.WriteLine("</alarms>");
+
+                }
                 
+                MessageBox.Show("Alarmlarınızın .txt formatından istenen .XML formatına dönüştürülmesi başarıyla tamamlandı!");
+
             }
-            catch(Exception err)
+            catch (Exception err)
             {
-                if (exportedPath != null)
-                {
-                    MessageBox.Show("Referans değişken dosyasını seçiniz");
-                    InputAlarmReferenceFile(null, null);
-                }
-                else
-                {
-                    MessageBox.Show("Lütfen hangi dosyadan hangi dosyaya aktarılacağını seçiniz.(İlki .txt ikincisi .xml uzantılı)");
-                    InputAlarmReferenceFile(null, null);
-                    InputAlarmExportFile(null, null);
-                }
-                
+
+                MessageBox.Show(err.Message);
+                //if (exportedPath == null)
+                //{
+                //    MessageBox.Show("Referans değişken dosyasını seçiniz");
+                //    InputAlarmReferenceFile(null, null);
+                //}
+                //else
+                //{
+                //    MessageBox.Show("Lütfen hangi dosyadan hangi dosyaya aktarılacağını seçiniz.(İlki .txt ikincisi .xml uzantılı)");
+                //    InputAlarmReferenceFile(null, null);
+                //    InputAlarmExportFile(null, null);
+                //}
+
             }
             
         }
 
-        // Path to your existing text file with lines to read
+        private void alarmSifirla(object sender, RoutedEventArgs e)
+        {
+            filePath = null;
+            exportedPath = null;
+        }
+        #endregion
 
-
-        // Read all lines from the input file
-
-
+        #region Recipe 
         private void InputReceipeReferenceFile(object sender, RoutedEventArgs e)
         {
             DialogFile.Title = "Hangi dosyadan aktarılacağını seçiniz (.txt)";
@@ -202,37 +363,33 @@ namespace PanelABBTagParser
         string gecici = "";
         private void ExportReceipeFile(object sender, RoutedEventArgs e)
         {
+            
+            
             try
             {
                 string[] lines = File.ReadAllLines(inputFilePath);
                 int lineCount = 0;
-                using (StreamWriter writer = new StreamWriter(outputFilePath))
+                using (StreamWriter writerRecipe = new StreamWriter(outputFilePath))
                 {
                     
                     String formattedLine = "\"#Delimiter:,\"\r\nRecipeName:,Recipe0\r\nsetSize:,0\r\nid:,1\r\nArray Support:,true\r\nElementName,Tag,Array Index,Index Tag,";
-                    writer.WriteLine(formattedLine);
+                    writerRecipe.WriteLine(formattedLine);
                     String addedLines = "";
                     String[] PiecesOfLine = { };
                     String PieceOfLine = "";
                     bool useInstead = false;
                     int k = 0;
-                    void writeToline()
-                    {
-                        writer.WriteLine(addedLines);
-                        lineCount++;
-                    }
+                   
 
-                    void addingToLine(String substr)
-                    { addedLines = $"\"Element{lineCount}\",\"{substr.Replace(" ", "")}\",\"-1\",\"\"" + ","; 
                     
-                    }
-                    // Loop through each line and format it
+                    //Her satırı gez.
+                    
                     for (int i = 0; i < lines.Length; i++)
                     {
                         string currentLine = lines[i];
                         currentLine = currentLineStr(currentLine);
                         PieceOfLine = currentLine;
-                        if (currentLine.Contains(";"))
+                        if (currentLine.Contains(";"))// bulunulan satırda ; isareti var ise ; e göre ayrılır. ve hepsi farklı satır olarak eklenir.
                         {
                             useInstead = true;
                             PiecesOfLine = PieceOfLine.Split(';');
@@ -243,15 +400,15 @@ namespace PanelABBTagParser
                                     if (PiecesOfLine[k].Contains(":"))
                                     {
                                         PiecesOfLine[k] = PiecesOfLine[k].Substring(0, PiecesOfLine[k].IndexOf(":"));
-                                        addingToLine(PiecesOfLine[k]);
-                                        writeToline();
+                                        addingToLine(PiecesOfLine[k],Operation.Recipe);
+                                        writeToline(writerRecipe);
                                     }
 
 
                                     else
                                     {
-                                        addingToLine(PiecesOfLine[k]);
-                                        writeToline();
+                                        addingToLine(PiecesOfLine[k], Operation.Recipe);
+                                        writeToline(writerRecipe);
 
                                     }
 
@@ -260,31 +417,31 @@ namespace PanelABBTagParser
                         }
                         
                           
-                            //PieceOfLine=currentLine.Substring(0,currentLine.IndexOf(";",k));
-                            //       k = k+currentLine.IndexOf(";", k)
+                          
 
                          if (currentLine.Contains(";") == false)
                             {
                         useInstead = false; 
                             }
 
-                        // Write the formatted line to the output file
+                        // bulunulan line bos degilse // yoksa ve use instead false ise (splitlenme işlemi useinsteadin false olmasıyla giren sartta gerceklesir ardından yukaridaki sart ile falselanır.)
                         if ((currentLine != "") && currentLine.Contains("//") == false && (useInstead == false))
                         {
                             if (currentLine.IndexOf(":") >= 0)
                             {
-
+                                
                                 currentLine = currentLine.Substring(0, currentLine.IndexOf(":"));
-
-                                addedLines = $"\"Element{lineCount}\",\"{currentLine.Replace(" ", "")}\",\"-1\",\"\"" + ",";
-                                writeToline();
+                                addingToLine(currentLine.Replace(" ", ""), Operation.Recipe);
+                                //addedLines = $"\"Element{lineCount}\",\"{currentLine.Replace(" ", "")}\",\"-1\",\"\"" + ",";
+                                writeToline(writerRecipe);
                             }
 
 
                             else
                             {
-                                addedLines = $"\"Element{lineCount}\",\"{currentLine.Replace(" ", "")}\",\"-1\",\"\"" + ",";
-                                writeToline();
+                                addingToLine(currentLine.Replace(" ", ""), Operation.Recipe);
+                               // addedLines = $"\"Element{lineCount}\",\"{currentLine.Replace(" ", "")}\",\"-1\",\"\"" + ",";
+                                writeToline(writerRecipe);
 
                             }
                         }
@@ -312,56 +469,17 @@ namespace PanelABBTagParser
                 }
             };
         }
-        
-        string currentLineStr(string input)
-        {
-            bool insideComment = false;
-            int currentLineIndex = 0;
-            int startIndex = 0;
-            
-            string result = "";
-            while (currentLineIndex < input.Length)
-            {
-                if (!insideComment && currentLineIndex == input.IndexOf("/*",startIndex))
-                {
-                    
-                    startIndex = input.IndexOf("/*", startIndex)+1;
-                    insideComment = true;
-                    currentLineIndex = currentLineIndex + 2;
-                    result = result+";";
-                }
-                else if (insideComment && currentLineIndex == input.IndexOf("*/", startIndex))
-                {startIndex= input.IndexOf("*/", startIndex)+1;
-                    insideComment = false;
-                    currentLineIndex = currentLineIndex + 2;
-                }
-
-                else if (!insideComment && currentLineIndex != input.IndexOf("*/"))
-                {
-                    
-                    result = result + input[currentLineIndex];
-                    currentLineIndex++;
-                }
-                else
-                {
-                    currentLineIndex++;
-
-                }
-
-            }
-            return result;
-        }
-
-        private void alarmSifirla(object sender, RoutedEventArgs e)
-        {
-            filePath = null;
-            exportedPath = null;
-        }
 
         private void receteSifirla(object sender, RoutedEventArgs e)
         {
             inputFilePath = null;
             outputFilePath = null;
+        }
+        #endregion
+
+        private void inputRecete_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

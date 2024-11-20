@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PanelABBTagParser"
         mc:Ignorable="d"
-        Title="MainWindow" Height="408" Width="527">
+        Title="MainWindow" Height="648" Width="527">
     <Grid  >
         <Button Content="Txt Formatındaki Alarm&#xD;&#xA;Değişken dosyasını Seç" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Click="InputAlarmReferenceFile" HorizontalAlignment="Left" Height="66" Margin="60,91,0,0" VerticalAlignment="Top" Width="160">
 
@@ -19,6 +19,7 @@
         <Label Content="Panele Reçete Veritabanını Yükle" HorizontalAlignment="Left" Margin="288,16,0,0" VerticalAlignment="Top" />
         <Button Content="Sıfırla" Click="alarmSifirla" HorizontalAlignment="Left" Height="21" Margin="85,55,0,0" VerticalAlignment="Top" Width="106" Background="Red"/>
         <Button Content="Sıfırla" Click="receteSifirla" HorizontalAlignment="Left" Height="21" Margin="330,55,0,0" VerticalAlignment="Top" Width="106" Background="Red"/>
+        <TextBox x:Name="inputRecete" Height="25" Margin="301,370,49,0" TextWrapping="Wrap" Text="Application/PersistentVars" VerticalAlignment="Top" TextChanged="inputRecete_TextChanged"/>
 
     </Grid>
 
