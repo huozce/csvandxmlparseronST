@@ -67,8 +67,11 @@ namespace PanelABBTagParser
         #region Common functions
         void writeToline(StreamWriter Writer)
         {
+            
             if (addedLines != "") { 
+                
             Writer.WriteLine(addedLines);
+                addedLines = "";
             lineCount++;
         }
         }
@@ -90,7 +93,7 @@ namespace PanelABBTagParser
                     break;
                 case Operation.Recipe:
                     if (substr != "")
-                        addedLines = $"\"Element{lineCount}\",\"{input + substr.Replace(" ", "")}\",\"-1\",\"\"" + ",";
+                        addedLines = $"\"Element{lineCount}\",\"{input + substr.Replace(" ","")}\",\"-1\",\"\"" + ",";
                     break;
                 default:
                     return;
@@ -227,6 +230,7 @@ namespace PanelABBTagParser
 
             try
             {
+                lineCount = 0;
                 using (StreamWriter WritingAlarm = new StreamWriter(exportedPath))
                 {
                     bool indicator = false;
@@ -268,7 +272,7 @@ namespace PanelABBTagParser
                                         else if (PiecesOfLine[j].Contains(":"))
                                         {
                                             PiecesOfLine[j] = PiecesOfLine[j].Substring(0, PiecesOfLine[j].IndexOf(":"));
-                                            addingToLine(PiecesOfLine[j].Replace(" ",""),Operation.Alarm);
+                                            addingToLine(PiecesOfLine[j].Replace(" ",""), Operation.Alarm);
                                             writeToline(WritingAlarm);
                                         }
 
@@ -286,13 +290,13 @@ namespace PanelABBTagParser
                             {
                                 useInstead = false;
                             }
-                            if ((currentLine != "") && (useInstead == false))
+                            if ((currentLine != "") && currentLine != ("\t")&& (useInstead == false))
                             {
                                 if (currentLine.Contains("//"))
                                 {
                                     currentLine = currentLine.Substring(0, currentLine.IndexOf("//"));
                                 }
-                                currentLine.Replace(" ", "");
+                                //currentLine.Replace(" ", "");
                                 if (currentLine.IndexOf(":") >= 0)
                                 {
                                     currentLine = currentLine.Substring(0, currentLine.IndexOf(":"));
@@ -312,10 +316,11 @@ namespace PanelABBTagParser
                 }
                 
                 MessageBox.Show("Alarmlarınızın .txt formatından istenen .XML formatına dönüştürülmesi başarıyla tamamlandı!");
-                lineCount = 0;
+                
             }
             catch (Exception err)
             {
+                lineCount = 0;
 
                 MessageBox.Show(err.Message);
                 //if (exportedPath == null)
@@ -379,15 +384,13 @@ namespace PanelABBTagParser
         string gecici = "";
         private void ExportReceipeFile(object sender, RoutedEventArgs e)
         {
-            var timer = new Stopwatch();
-            timer.Start();
-
-
+            
 
             try
             {
+                lineCount = 0;
                 string[] lines = File.ReadAllLines(inputFilePath);
-                int lineCount = 0;
+                
                 using (StreamWriter writerRecipe = new StreamWriter(outputFilePath))
                 {
                     
@@ -405,7 +408,7 @@ namespace PanelABBTagParser
                     
                     for (int i = 0; i < lines.Length; i++)
                     {
-                        string currentLine = lines[i];
+                        string currentLine = lines[i].Replace("\t","");
                         currentLine = currentLineStr(currentLine);
                         PieceOfLine = currentLine;
                         if (currentLine.Contains(";"))// bulunulan satırda ; isareti var ise ; e göre ayrılır. ve hepsi farklı satır olarak eklenir.
@@ -419,8 +422,8 @@ namespace PanelABBTagParser
                                     if (PiecesOfLine[k].Contains("//"))
                                     {
                                         PiecesOfLine[k] = PiecesOfLine[k].Substring(0, PiecesOfLine[k].IndexOf("//"));
-                                        addingToLine(PiecesOfLine[k], Operation.Recipe);
-                                        if (PiecesOfLine[k] !=" " && PiecesOfLine[k] != "") { 
+                                        addingToLine(PiecesOfLine[k].Replace(" ","").Replace("\t",""), Operation.Recipe);
+                                        if (PiecesOfLine[k] !=" " && PiecesOfLine[k] != "" ) { 
                                         writeToline(writerRecipe);}
                                         break;
                                         
@@ -491,6 +494,7 @@ namespace PanelABBTagParser
             }
             catch (Exception err)
             {
+                lineCount = 0;
                 if (outputFilePath != "")
                 {
                     MessageBox.Show(err.Message);
