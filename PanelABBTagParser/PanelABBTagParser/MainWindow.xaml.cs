@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
@@ -251,9 +252,20 @@ namespace PanelABBTagParser
                                 PiecesOfLine = PieceOfLine.Split(';');
                                 for (int j = 0; j < PiecesOfLine.Length; j++)
                                 {
-                                    if ((PiecesOfLine[j].Contains(" ")) && (PiecesOfLine[j] != "")&&(PiecesOfLine[j].Contains("//") == false))
+                                    if ((PiecesOfLine[j].Contains(" ")) && (PiecesOfLine[j] != ""))
                                     {
-                                        if (PiecesOfLine[j].Contains(":"))
+                                        if (PiecesOfLine[j].Contains("//"))
+                                        {
+                                            PiecesOfLine[j] = PiecesOfLine[j].Substring(0, PiecesOfLine[j].IndexOf("//"));
+                                            addingToLine(PiecesOfLine[j], Operation.Alarm);
+                                            if (PiecesOfLine[j] != " " && PiecesOfLine[j] != "")
+                                            {
+                                                writeToline(WritingAlarm);
+                                            }
+                                            break;
+
+                                        }
+                                        else if (PiecesOfLine[j].Contains(":"))
                                         {
                                             PiecesOfLine[j] = PiecesOfLine[j].Substring(0, PiecesOfLine[j].IndexOf(":"));
                                             addingToLine(PiecesOfLine[j].Replace(" ",""),Operation.Alarm);
@@ -274,8 +286,12 @@ namespace PanelABBTagParser
                             {
                                 useInstead = false;
                             }
-                            if ((currentLine != "") && (currentLine.Contains("//") == false) && (useInstead == false))
+                            if ((currentLine != "") && (useInstead == false))
                             {
+                                if (currentLine.Contains("//"))
+                                {
+                                    currentLine = currentLine.Substring(0, currentLine.IndexOf("//"));
+                                }
                                 currentLine.Replace(" ", "");
                                 if (currentLine.IndexOf(":") >= 0)
                                 {
@@ -296,7 +312,7 @@ namespace PanelABBTagParser
                 }
                 
                 MessageBox.Show("Alarmlarınızın .txt formatından istenen .XML formatına dönüştürülmesi başarıyla tamamlandı!");
-
+                lineCount = 0;
             }
             catch (Exception err)
             {
@@ -363,8 +379,11 @@ namespace PanelABBTagParser
         string gecici = "";
         private void ExportReceipeFile(object sender, RoutedEventArgs e)
         {
-            
-            
+            var timer = new Stopwatch();
+            timer.Start();
+
+
+
             try
             {
                 string[] lines = File.ReadAllLines(inputFilePath);
@@ -395,19 +414,28 @@ namespace PanelABBTagParser
                             PiecesOfLine = PieceOfLine.Split(';');
                             for (k = 0; k < PiecesOfLine.Length; k++)
                             {
-                                if ((PiecesOfLine[k] != " ") && (PiecesOfLine[k].Contains("//") == false))
+                                if ((PiecesOfLine[k]!=" "&& PiecesOfLine[k] != ""))
                                 {
-                                    if (PiecesOfLine[k].Contains(":"))
+                                    if (PiecesOfLine[k].Contains("//"))
+                                    {
+                                        PiecesOfLine[k] = PiecesOfLine[k].Substring(0, PiecesOfLine[k].IndexOf("//"));
+                                        addingToLine(PiecesOfLine[k], Operation.Recipe);
+                                        if (PiecesOfLine[k] !=" " && PiecesOfLine[k] != "") { 
+                                        writeToline(writerRecipe);}
+                                        break;
+                                        
+                                    }
+                                    else if (PiecesOfLine[k].Contains(":"))
                                     {
                                         PiecesOfLine[k] = PiecesOfLine[k].Substring(0, PiecesOfLine[k].IndexOf(":"));
-                                        addingToLine(PiecesOfLine[k],Operation.Recipe);
+                                        addingToLine(PiecesOfLine[k].Replace(" ", ""), Operation.Recipe);
                                         writeToline(writerRecipe);
                                     }
 
 
                                     else
                                     {
-                                        addingToLine(PiecesOfLine[k], Operation.Recipe);
+                                        addingToLine(PiecesOfLine[k].Replace(" ", ""), Operation.Recipe);
                                         writeToline(writerRecipe);
 
                                     }
@@ -425,8 +453,14 @@ namespace PanelABBTagParser
                             }
 
                         // bulunulan line bos degilse // yoksa ve use instead false ise (splitlenme işlemi useinsteadin false olmasıyla giren sartta gerceklesir ardından yukaridaki sart ile falselanır.)
-                        if ((currentLine != "") && currentLine.Contains("//") == false && (useInstead == false))
+                        if ((currentLine != "") && (useInstead == false))
                         {
+                            if (currentLine.Contains("//")) {
+                                currentLine = currentLine.Substring(0, currentLine.IndexOf("//"));
+                                
+                            
+                            
+                            }
                             if (currentLine.IndexOf(":") >= 0)
                             {
                                 
@@ -452,6 +486,7 @@ namespace PanelABBTagParser
 
 
                     MessageBox.Show("Reçetelerinizin .txt formatından istenen .csv formatına dönüştürülmesi başarıyla tamamlandı!");
+                    lineCount = 0;
                 }
             }
             catch (Exception err)
