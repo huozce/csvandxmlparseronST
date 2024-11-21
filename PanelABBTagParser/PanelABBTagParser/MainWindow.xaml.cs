@@ -112,22 +112,22 @@ namespace PanelABBTagParser
             string result = "";
             while (currentLineIndex < input.Length)
             {
-                if (!insideComment && currentLineIndex == input.IndexOf("/*", startIndex))
+                if (!insideComment && currentLineIndex == input.IndexOf("(*", startIndex))
                 {
 
-                    startIndex = input.IndexOf("/*", startIndex) + 1;
+                    startIndex = input.IndexOf("(*", startIndex) + 1;
                     insideComment = true;
                     currentLineIndex = currentLineIndex + 2;
                     result = result + ";";
                 }
-                else if (insideComment && currentLineIndex == input.IndexOf("*/", startIndex))
+                else if (insideComment && currentLineIndex == input.IndexOf("*)", startIndex))
                 {
-                    startIndex = input.IndexOf("*/", startIndex) + 1;
+                    startIndex = input.IndexOf("*)", startIndex) + 1;
                     insideComment = false;
                     currentLineIndex = currentLineIndex + 2;
                 }
 
-                else if (!insideComment && currentLineIndex != input.IndexOf("*/"))
+                else if (!insideComment && currentLineIndex != input.IndexOf("*)"))
                 {
 
                     result = result + input[currentLineIndex];
@@ -152,22 +152,22 @@ namespace PanelABBTagParser
             string result = "";
             while (currentLineIndex < input.Length)
             {
-                if (!insideComment && currentLineIndex == input.IndexOf("/*", startIndex))
+                if (!insideComment && currentLineIndex == input.IndexOf("(*", startIndex))
                 {
 
-                    startIndex = input.IndexOf("/*", startIndex) + 1;
+                    startIndex = input.IndexOf("(*", startIndex) + 1;
                     insideComment = true;
                     currentLineIndex = currentLineIndex + 2;
                     result = result + ";";
                 }
-                else if (insideComment && currentLineIndex == input.IndexOf("*/", startIndex))
+                else if (insideComment && currentLineIndex == input.IndexOf("*)", startIndex))
                 {
-                    startIndex = input.IndexOf("*/", startIndex) + 1;
+                    startIndex = input.IndexOf("*)", startIndex) + 1;
                     insideComment = false;
                     currentLineIndex = currentLineIndex + 2;
                 }
 
-                else if (!insideComment && currentLineIndex != input.IndexOf("*/"))
+                else if (!insideComment && currentLineIndex != input.IndexOf("*)"))
                 {
 
                     result = result + input[currentLineIndex];
@@ -195,6 +195,7 @@ namespace PanelABBTagParser
             DialogFile.Title = "Hangi dosyadan aktarılacağını seçiniz(.txt)";
             DialogFile.ShowDialog(this);
             filePath = DialogFile.FileName;
+            alarmInput.Content= filePath;
         }
 
         private void InputAlarmExportFile(object sender, RoutedEventArgs e)
@@ -211,6 +212,7 @@ namespace PanelABBTagParser
             {
                 // Get the file path chosen by the user
                 exportedPath = saveFileDialog.FileName;
+                alarmOutput.Content = exportedPath;
 
                 // Create the file if it doesn’t already exist
                 if (!File.Exists(exportedPath))
@@ -233,7 +235,7 @@ namespace PanelABBTagParser
                 lineCount = 0;
                 using (StreamWriter WritingAlarm = new StreamWriter(exportedPath))
                 {
-                    bool indicator = false;
+                    
                     string[] lines = File.ReadAllLines(filePath);
 
                     if (!(filePath == "" && exportedPath == ""))
@@ -352,6 +354,7 @@ namespace PanelABBTagParser
             DialogFile.Title = "Hangi dosyadan aktarılacağını seçiniz (.txt)";
             DialogFile.ShowDialog(this);
             inputFilePath = DialogFile.FileName;
+            receteInput.Content = inputFilePath;
         }
         private void InputReceipeExportFile(object sender, RoutedEventArgs e)
         {
@@ -367,6 +370,7 @@ namespace PanelABBTagParser
             {
                 // Get the file path chosen by the user
                 outputFilePath = saveFileDialog.FileName;
+                receteOutput.Content = outputFilePath;
 
                 // Create the file if it doesn’t already exist
                 if (!File.Exists(outputFilePath))

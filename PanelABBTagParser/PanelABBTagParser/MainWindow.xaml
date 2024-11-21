@@ -5,21 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PanelABBTagParser"
         mc:Ignorable="d"
-        Title="MainWindow" Height="648" Width="527">
-    <Grid  >
+        Title="MainWindow" Height="541" Width="1077">
+    <Grid Margin="0,0,10,51" RenderTransformOrigin="0.519,0.643"  >
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="0*"/>
+            <RowDefinition Height="0*"/>
+        </Grid.RowDefinitions>
         <Button Content="Txt Formatındaki Alarm&#xD;&#xA;Değişken dosyasını Seç" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Click="InputAlarmReferenceFile" HorizontalAlignment="Left" Height="66" Margin="60,91,0,0" VerticalAlignment="Top" Width="160">
 
         </Button>
         <Button Content="XML Formatına Dönüştür.&#xA;(Boş XML Seçiniz) "  Click="InputAlarmExportFile" HorizontalAlignment="Left" Height="67" Margin="58,189,0,0" VerticalAlignment="Top" Width="160"/>
-        <Button   Content="Alarm Dosyası Oluştur" FontWeight="Bold"  Click="ExportAlarmFile" HorizontalAlignment="Left" Height="70" Margin="60,284,0,0" VerticalAlignment="Top" Width="160" />
-        <Button Content="Txt Formatındaki Reçete&#xA;Değişken Dosyasını Seç" Click="InputReceipeReferenceFile" HorizontalAlignment="Left" Height="67" Margin="301,90,0,0" VerticalAlignment="Top" Width="160"/>
-        <Button Content="Csv Formatına Çevrilecek&#xD;&#xA; Reçete(Boş csv Dosyası Seçiniz)" Click="InputReceipeExportFile" HorizontalAlignment="Left" Height="67" Margin="301,189,0,0" VerticalAlignment="Top" Width="160"/>
-        <Button Content="Reçete Dosyası Oluştur" FontWeight="Bold" Click="ExportReceipeFile" HorizontalAlignment="Left" Height="70" Margin="301,284,0,0" VerticalAlignment="Top" Width="160" />
-        <Label Content="Panele Alarm Veritabanını Yükle" HorizontalAlignment="Left" Margin="56,16,0,0" VerticalAlignment="Top" />
-        <Label Content="Panele Reçete Veritabanını Yükle" HorizontalAlignment="Left" Margin="288,16,0,0" VerticalAlignment="Top" />
+        <Button   Content="Alarm Dosyası Oluştur" FontWeight="Bold"  Click="ExportAlarmFile" HorizontalAlignment="Left" Height="71" Margin="58,284,0,0" VerticalAlignment="Top" Width="160" />
+        <Button Content="Txt Formatındaki Reçete&#xA;Değişken Dosyasını Seç" Click="InputReceipeReferenceFile" HorizontalAlignment="Left" Height="67" Margin="519,91,0,0" VerticalAlignment="Top" Width="160"/>
+        <Button Content="Csv Formatına Çevrilecek&#xD;&#xA; Reçete(Boş csv Dosyası Seçiniz)" Click="InputReceipeExportFile" HorizontalAlignment="Left" Height="67" Margin="519,190,0,0" VerticalAlignment="Top" Width="160"/>
+        <Button Content="Reçete Dosyası Oluştur" FontWeight="Bold" Click="ExportReceipeFile" HorizontalAlignment="Left" Height="70" Margin="519,285,0,0" VerticalAlignment="Top" Width="160" />
+        <Label Content="Panele Alarm Veritabanını Yükle" HorizontalAlignment="Left" Margin="56,16,0,0" VerticalAlignment="Top" Height="26" Width="177" />
+        <Label Content="Panele Reçete Veritabanını Yükle" HorizontalAlignment="Left" Margin="509,17,0,0" VerticalAlignment="Top" Height="26" Width="180" />
         <Button Content="Sıfırla" Click="alarmSifirla" HorizontalAlignment="Left" Height="21" Margin="85,55,0,0" VerticalAlignment="Top" Width="106" Background="Red"/>
-        <Button Content="Sıfırla" Click="receteSifirla" HorizontalAlignment="Left" Height="21" Margin="330,55,0,0" VerticalAlignment="Top" Width="106" Background="Red"/>
-        <TextBox x:Name="inputRecete" Height="25" Margin="301,370,49,0" TextWrapping="Wrap" Text="Application/PersistentVars" VerticalAlignment="Top" TextChanged="inputRecete_TextChanged"/>
+        <Button Content="Sıfırla" Click="receteSifirla" HorizontalAlignment="Left" Height="21" Margin="546,56,0,0" VerticalAlignment="Top" Width="106" Background="Red"/>
+        <TextBox x:Name="inputRecete" Height="49" Margin="58,391,418,0" TextWrapping="Wrap" Text="Application/PersistentVars/" VerticalAlignment="Top" TextChanged="inputRecete_TextChanged"/>
+        <Label Content="Label" x:Name="alarmInput" HorizontalAlignment="Left" Height="38" Margin="242,105,0,0" VerticalAlignment="Top" Width="256"/>
+        <Label Content="Label" x:Name="alarmOutput" HorizontalAlignment="Left" Height="38" Margin="242,204,0,0" VerticalAlignment="Top" Width="256" RenderTransformOrigin="0.508,0.488"/>
+        <Label Content="Label" x:Name="receteOutput" HorizontalAlignment="Left" Height="38" Margin="700,204,0,0" VerticalAlignment="Top" Width="256"/>
+        <Label Content="Label" x:Name="receteInput" HorizontalAlignment="Left" Height="38" Margin="700,105,0,0" VerticalAlignment="Top" Width="256"/>
 
     </Grid>
 
