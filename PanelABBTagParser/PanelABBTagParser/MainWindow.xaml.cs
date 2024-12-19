@@ -244,7 +244,7 @@ namespace PanelABBTagParser
                         WritingAlarm.WriteLine("<?xml version = \"1.0\" encoding = \"UTF-8\" ?> <alarms>");
 
                         for (int i = 0; i < lines.Length; i++)
-                        { string currentLine = lines[i];
+                        { string currentLine = lines[i].Replace("\t","");
                             bool useInstead = false;
                             currentLine = currentLineSt(currentLine);
                             string PieceOfLine = currentLine;

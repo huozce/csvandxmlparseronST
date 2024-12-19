@@ -25,10 +25,10 @@
         <Button Content="Sıfırla" Click="alarmSifirla" HorizontalAlignment="Left" Height="21" Margin="85,55,0,0" VerticalAlignment="Top" Width="106" Background="Red"/>
         <Button Content="Sıfırla" Click="receteSifirla" HorizontalAlignment="Left" Height="21" Margin="546,56,0,0" VerticalAlignment="Top" Width="106" Background="Red"/>
         <TextBox x:Name="inputRecete" Height="49" Margin="58,391,418,0" TextWrapping="Wrap" Text="Application/PersistentVars/" VerticalAlignment="Top" TextChanged="inputRecete_TextChanged"/>
-        <Label Content="Label" x:Name="alarmInput" HorizontalAlignment="Left" Height="38" Margin="242,105,0,0" VerticalAlignment="Top" Width="256"/>
-        <Label Content="Label" x:Name="alarmOutput" HorizontalAlignment="Left" Height="38" Margin="242,204,0,0" VerticalAlignment="Top" Width="256" RenderTransformOrigin="0.508,0.488"/>
-        <Label Content="Label" x:Name="receteOutput" HorizontalAlignment="Left" Height="38" Margin="700,204,0,0" VerticalAlignment="Top" Width="256"/>
-        <Label Content="Label" x:Name="receteInput" HorizontalAlignment="Left" Height="38" Margin="700,105,0,0" VerticalAlignment="Top" Width="256"/>
+        <Label x:Name="alarmInput" HorizontalAlignment="Left" Height="38" Margin="242,105,0,0" VerticalAlignment="Top" Width="256"/>
+        <Label x:Name="alarmOutput" HorizontalAlignment="Left" Height="38" Margin="242,204,0,0" VerticalAlignment="Top" Width="256" RenderTransformOrigin="0.508,0.488"/>
+        <Label x:Name="receteOutput" HorizontalAlignment="Left" Height="38" Margin="700,204,0,0" VerticalAlignment="Top" Width="256"/>
+        <Label x:Name="receteInput" HorizontalAlignment="Left" Height="38" Margin="700,105,0,0" VerticalAlignment="Top" Width="256"/>
 
     </Grid>
 
